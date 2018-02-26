@@ -63,7 +63,6 @@ $.ajax({
       }).done(function (res) {
         $.each(res, function (key, entry) {
     dropdown.append($('<option></option>').attr('value', entry).text(entry));
-    choice = dropdown.append($('<option></option>').attr('value', entry).text(entry));
 
      
   })
@@ -76,13 +75,16 @@ $.ajax({
 )};
    
    function removeCategory(){
-    var html = "";
+    var html = "Geometri";
+    var idVal = document.getElementById("catDrop").value;
+    
+
 
      $.ajax({
       type: "DELETE",
-      url: "http://localhost:5000/api/1/category/:id",
-      headers: {"Accept": "application/json"}
-   }).done(funtion (res) {
+      url: "http://localhost:5000/api/1/category/" + idVal,
+      headers: {"Accept": "options"}
+   }).done(function (res) {
       console.log(res + "DELETE ass");
     }
 
@@ -98,6 +100,7 @@ $.ajax({
       }).done(function (res) {
         html = "";
         list = $('#Categorys');
+        list.empty();
       for(i = 0; i < res.length; i++) {
     
     html += '<li id=Categorys>' + res[i] + '</li> <br>';  
@@ -107,6 +110,8 @@ console.log(res);
       }
 
 )};
+
+
 
 
 
@@ -140,13 +145,16 @@ console.log(res);
         <input type="button" value="Show category" id="ShowCatButton" onclick="showCategory()">
       
          <input type="button" value="Remove category" id="removeCatButton" onclick="deleteCategory()">
+        <input type="button" value="Delete selected" id="deleteSelectedCat" onClick="removeCategory()">
+
          <button type="button">Edit category</button>
     
          
     <td id="cats"> Categorys
       <div style="height:550px;width:820px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
+         <select id="catDrop" name="Category"></select>
          <ul id="Categorys">
-          <select id="catDrop" name="Category"></select>
+          
        </ul>
       </div>
 
