@@ -50,8 +50,10 @@ li {
 
 
 
+
 function deleteCategory(){
 let dropdown = $("#catDrop");
+var choice ="";
 dropdown.empty();
 dropdown.append('<option selected="true" disabled>Select Category</option>');
 $.ajax({
@@ -61,14 +63,30 @@ $.ajax({
       }).done(function (res) {
         $.each(res, function (key, entry) {
     dropdown.append($('<option></option>').attr('value', entry).text(entry));
+    choice = dropdown.append($('<option></option>').attr('value', entry).text(entry));
+
+     
   })
 
   console.log("Hej Lykke");
+
 
 }
 
 )};
    
+   function removeCategory(){
+    var html = "";
+
+     $.ajax({
+      type: "DELETE",
+      url: "http://localhost:5000/api/1/category/:id",
+      headers: {"Accept": "application/json"}
+   }).done(funtion (res) {
+      console.log(res + "DELETE ass");
+    }
+
+   )};
 
 
     function showCategory(){
@@ -121,7 +139,7 @@ console.log(res);
 
         <input type="button" value="Show category" id="ShowCatButton" onclick="showCategory()">
       
-         <input type="button" value="Remove category" id="removeCatButton" onclick="deleteCategory()"></button>
+         <input type="button" value="Remove category" id="removeCatButton" onclick="deleteCategory()">
          <button type="button">Edit category</button>
     
          
