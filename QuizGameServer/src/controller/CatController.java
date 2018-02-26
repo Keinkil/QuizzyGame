@@ -40,5 +40,21 @@ public class CatController {
 		}
 		return false;
 	}
+	
+	public int removeCategory(String cat){
+		System.out.println("hur många kategorier " + category.size());
+		for(int i = 0; i < category.size(); i++){
+			
+			if(category.get(i).getName().equals(cat)){
+				System.out.println("Category getName " + category.get(i).getName());
+				System.out.println("Id namn " + cat);
+				category.remove(i);
+				return 1;
+				
+			}
+			
+		}
+		return -1;
+	}
 
 }
