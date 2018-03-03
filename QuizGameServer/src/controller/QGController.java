@@ -6,6 +6,7 @@ import static spark.Spark.port;
 import static spark.Spark.options;
 import static spark.Spark.halt;
 import static spark.Spark.before;
+import static spark.Spark.post;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -53,9 +54,7 @@ public class QGController {
 			}
 
 		});
-		/*
-		 * request for tweets, send an API call to twitter using TwittCalls
-		 */
+		
 		// get("/api/1/question/:id", (req, res) -> {
 		//
 		// String id = req.params(":id"); // find out what/who they want to know
@@ -83,9 +82,19 @@ public class QGController {
 			}else if(result > 0){
 				res.status(200);
 			}
-			return "fuck";
+			return "ok";
 			
 				
+		});
+		
+		post("/api/1/category/:id", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			String id = req.params(":id");
+			Gson gson = new GsonBuilder().create();
+
+				String jsonArray = gson.toJson(cat.addCat(id));
+				return jsonArray;
 		});
 
 	}
