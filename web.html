@@ -111,19 +111,40 @@ console.log(res);
 
 )};
 
+function editCategory(){
+  var idVal = document.getElementById("catDrop").value;
+
+}
+
+function addCategory(idVal){
+
+  var id = idVal;
+      $.ajax({
+        type: "POST",
+        url: "http://localhost:5000/api/1/category/" + id,
+        headers: {"Accept": "application/json"}
+      }).done(function(res) {
+        console.log("post?!");
+      }
+      )};
+
+function tryToAdd(){
 
 
-
-
+<form>
+    <input type="text" id="inputNameCat" value="New category...">
  
+     <input type="button" value="Submit" id="SubmitButton" onclick="addCategory(idVal)">
 
-
+     var idVal = document.getElementById("inputNameCat").value;
+   </form>
+}
 
 
  
 </script>
 </head>
- 
+
 <body>
 
 
@@ -140,7 +161,7 @@ console.log(res);
 
      <br><br>
      
-      <input type="button" value="Add category" id="AddButton" onclick="hej">
+      <input type="button" value="Add category" id="AddButton" onclick="tryToAdd()">
 
         <input type="button" value="Show category" id="ShowCatButton" onclick="showCategory()">
       
