@@ -129,6 +129,7 @@ var idVal = document.getElementById("inputNameCat").value;
         url: "http://localhost:5000/api/1/category/" + idVal,
         headers: {"Accept": "application/json"}
       }).done(function(res) {
+      	showCategory();
         console.log("post?!");
       }
       )};
