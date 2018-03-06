@@ -1,72 +1,29 @@
 body {
-  background-color: #172838;
+  background-image: url("background.png");
+  background-repeat: no-repeat;
+  background-position: right top;
+  background-attachment: fixed;
 }
 
-table {
-  border-spacing: 10px;
-  border-collapse: separate;
-  cellspacing: 100px;
-  width: 1200px;
-}
-td {
-  
-  padding: 10px;
-}
-
-li {
-  cursor: pointer;
+.header {
+  padding: 30px;
 }
 
 h1 {
-	color: white;
+  color: white;
+  margin-left: 20px;
 }
 
-
-#Profilimage img {
-  max-width: 220;
+#catSec button {
+  background-color: white;
+  color: black;
+  padding: 10px;
+  border: 2px solid #e7e7e7;
+  margin: 0px 10px;
+  border-radius: 15px;
 }
 
-#test {
-  width: 300px;
-
+#catSec button:hover {
+  background-color: #555555;
+  color: white;
 }
-.dropbtn {
-    background-color: #3498DB;
-    color: white;
-    padding: 16px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-}
-
-.dropbtn:hover, .dropbtn:focus {
-    background-color: #2980B9;
-}
-
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 160px;
-    overflow: auto;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
-
-.dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-
-.dropdown a:hover {background-color: #ddd}
-
-.show {display:block;}
-
-

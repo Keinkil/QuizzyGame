@@ -6,7 +6,7 @@
 
 <meta charset="UTF-8">
 <style type="text/css">
- 
+
 
 
 
@@ -34,7 +34,7 @@ $.ajax({
         $.each(res, function (key, entry) {
     dropdown.append($('<option></option>').attr('value', entry).text(entry));
 
-     
+
   })
 
   console.log("Hej Lykke");
@@ -43,10 +43,10 @@ $.ajax({
 }
 
 )};
-   
+
    function removeCategory(){
     var idVal = document.getElementById("catDrop").value;
-    
+
 
 
      $.ajax({
@@ -63,7 +63,7 @@ $.ajax({
     function showCategory(){
     let dropdown = $("#catDrop");
     var choice ="";
-   
+
   dropdown.empty();
   dropdown.append('<option selected="true" disabled>Select Category</option>');
       var html = "";
@@ -76,10 +76,10 @@ $.ajax({
         list = $('#Categorys');
         list.empty();
       for(i = 0; i < res.length; i++) {
-    
-    html += '<li id=Categorys>' + res[i] + '</li> <br>';  
+
+    html += '<li id=Categorys>' + res[i] + '</li> <br>';
     }
-  list.append(html); 
+  list.append(html);
 console.log(res);
  $.each(res, function (key, entry) {
     dropdown.append($('<option></option>').attr('value', entry).text(entry));
@@ -100,7 +100,7 @@ function editCategory(){
   var laj = "oh";
 
   var idVal = document.getElementById("catDrop").value;
-  
+
  $.ajax({
         type: "PUT",
         url: "http://localhost:5000/api/1/category/" + idVal,
@@ -117,7 +117,7 @@ function editCategory(){
 
 function addCategory(){
 var idVal = document.getElementById("inputNameCat").value;
-  
+
       $.ajax({
         type: "POST",
         url: "http://localhost:5000/api/1/category/" + idVal,
@@ -158,7 +158,7 @@ function testQ(){
 )};
 
 
- 
+
 </script>
 </head>
 
@@ -167,7 +167,9 @@ function testQ(){
 
 
 <center>
-
+  <div class="header">
+    <img src="logo.png" alt="Logo">
+  </div>
 
   <form name="newQuestion" id="newQuestion">
   	<input type="hidden" name="id">
@@ -179,21 +181,20 @@ function testQ(){
 </form>
 
 <div = test >
-<section id="catSec"> 
-<table> 
-  <tr>
+<section id="catSec">
+<table>
 
-     <br><br>
-     
-      <input type="button" value="Add category" id="AddButton" onclick="tryToAdd()">
 
-        <input type="button" value="Show category" id="ShowCatButton" onclick="showCategory()">
-      
-         <input type="button" value="Remove category" id="removeCatButton" onclick="deleteCategory()">
-        <input type="button" value="Delete selected" id="deleteSelectedCat" onclick="removeCategory()">
-        <input type="button" value="test to add question" id="addQ" onclick="testQ()">
-    
-         
+
+     <button id="AddButton" onclick="tryToAdd()">Add category</button>
+     <button id="ShowCatButton" onclick="showCategory()">Show category</button>
+     <button id="removeCatButton" onclick="deleteCategory()">Remove category</button>
+     <button id="deleteSelectedCat" onClick="removeCategory()">Delete selected</button>
+     <button id="addQ" onclick="testQ()">test to add question</button>
+
+        <tr>
+
+
     <h1 td id="cats"> Categorys
       <div style="height:550px;width:820px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
          <select id="catDrop" name="Category"></select>
@@ -211,16 +212,16 @@ function testQ(){
     <input type="let" value="Select category" id="dropDown">
   </form>
          <ul id="Categorys">
-          
+
        </ul>
       </div>
 
 
-    
+
 </td>
 </tr>
 </table>
- 
+
 </section>
 </div>
 <center>
