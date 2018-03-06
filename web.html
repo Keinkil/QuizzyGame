@@ -101,12 +101,18 @@ function editCategory(){
 
   var idVal = document.getElementById("catDrop").value;
 
+  var data={};
+  data.name = document.getElementById("catDrop").value;
+  data.changeCat = $('#changeCategory input[name=changeCat]').val();
+  
+
  $.ajax({
         type: "PUT",
-        url: "http://localhost:5000/api/1/category/" + idVal,
+        url: "http://localhost:5000/api/1/category/",
+        data: JSON.stringify(data),
         headers: {"Accept": "application/json"}
       }).done(function(res) {
-        console.log("put?!");
+        console.log(res + "put?!");
       }
 
 
@@ -138,7 +144,7 @@ function tryToAdd(){
     }
 }
 
-function testQ(){
+function postQ(){
 
 
 	 var idVal = $('#newQuestion input[name=name]').val();
@@ -157,6 +163,18 @@ function testQ(){
 
 )};
 
+      function showQ(){
+      	var idVal = document.getElementById("catDrop").value;
+      	$.ajax({
+  		type: "GET",
+        url: "http://localhost:5000/api/1/category/ " + idVal,
+        headers: {"Accept": "application/json"}
+      }).done(function (res) {
+        console.log(res + "mannen");
+     }
+  )};
+
+
 
 
 </script>
@@ -167,9 +185,24 @@ function testQ(){
 
 
 <center>
+
   <div class="header">
     <img src="logo.png" alt="Logo">
   </div>
+
+
+	<form name="changeCategory" id="changeCategory">
+		<input type="hidden" name="id">
+		<input type="text" name="changeCat"><br>
+	<input type="button" value="Edit category" id="EditCategory" onclick="editCategory()">
+</form>
+
+
+	<form name="showQuestions" id="showQuestions">
+		<button type="button" id="getQuestions" onclick="showQ()">Visa frågor</button>
+	</form>
+
+
 
   <form name="newQuestion" id="newQuestion">
   	<input type="hidden" name="id">
@@ -177,7 +210,7 @@ function testQ(){
   	<input type="text" name="name"><br>//-->
   	  <label for="question">Ny fråga</label>
       <input type="text" name="question"><br>
-    <button type="button" id="postQuestion" onclick="testQ()">Skicka</button>
+    <button type="button" id="postQuestion" onclick="postQ()">Skicka</button>
 </form>
 
 <div = test >
@@ -205,7 +238,7 @@ function testQ(){
    </form>
 
    <form id="editForm" hidden>
-    <input type="button" value="Edit category" id="EditCategory" onclick="editCategory()">
+   
   </form>
 
   <form id="drop" hidden>
