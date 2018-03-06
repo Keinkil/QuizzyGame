@@ -1,59 +1,29 @@
 <!DOCTYPE html>
 <html>
 <!-- This is a comment -->
-<body text="white">
- <font face="Tahoma">
+
 <head>
 
 <meta charset="UTF-8">
 <style type="text/css">
-
-body {
-  background-color: #172838;
-}
-
-table {
-  border-spacing: 10px;
-  border-collapse: separate;
-  cellspacing: 100px;
-  width: 1200px;
-}
-td {
-  
-  padding: 10px;
-}
-
-li {
-  cursor: pointer;
-}
-
-
-#Profilimage img {
-  max-width: 220;
-}
-
-#test {
-  width: 300px;
-
-}
+ 
 
 
 
 </style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
-</script>
-<script type="text/javascript">
-</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript"></script>
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" href="webLook.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 <script type="text/javascript">
 
 
-
-
 function deleteCategory(){
+
 let dropdown = $("#catDrop");
 var choice ="";
+dropdown.hidden();
 dropdown.empty();
 dropdown.append('<option selected="true" disabled>Select Category</option>');
 $.ajax({
@@ -75,7 +45,6 @@ $.ajax({
 )};
    
    function removeCategory(){
-    var html = "Geometri";
     var idVal = document.getElementById("catDrop").value;
     
 
@@ -92,6 +61,11 @@ $.ajax({
 
 
     function showCategory(){
+    let dropdown = $("#catDrop");
+    var choice ="";
+   
+  dropdown.empty();
+  dropdown.append('<option selected="true" disabled>Select Category</option>');
       var html = "";
       $.ajax({
         type: "GET",
@@ -107,21 +81,46 @@ $.ajax({
     }
   list.append(html); 
 console.log(res);
+ $.each(res, function (key, entry) {
+    dropdown.append($('<option></option>').attr('value', entry).text(entry));
+
+var x = document.getElementById("editForm");
+if(x.style.display==="hidden" || x.style.display === "block") {
+  x.style.display="none";
+  } else {
+        x.style.display = "block";
+    }
+
       }
+      )}
 
 )};
 
 function editCategory(){
+  var laj = "oh";
+
   var idVal = document.getElementById("catDrop").value;
+  
+ $.ajax({
+        type: "PUT",
+        url: "http://localhost:5000/api/1/category/" + idVal,
+        headers: {"Accept": "application/json"}
+      }).done(function(res) {
+        console.log("put?!");
+      }
 
-}
 
-function addCategory(idVal){
+)};
 
-  var id = idVal;
+
+
+
+function addCategory(){
+var idVal = document.getElementById("inputNameCat").value;
+  
       $.ajax({
         type: "POST",
-        url: "http://localhost:5000/api/1/category/" + id,
+        url: "http://localhost:5000/api/1/category/" + idVal,
         headers: {"Accept": "application/json"}
       }).done(function(res) {
         console.log("post?!");
@@ -131,14 +130,32 @@ function addCategory(idVal){
 function tryToAdd(){
 
 
-<form>
-    <input type="text" id="inputNameCat" value="New category...">
- 
-     <input type="button" value="Submit" id="SubmitButton" onclick="addCategory(idVal)">
-
-     var idVal = document.getElementById("inputNameCat").value;
-   </form>
+ var x = document.getElementById("testform");
+    if (x.style.display === "hidden" || x.style.display === "block") {
+        x.style.display = "none";
+    } else {
+        x.style.display = "block";
+    }
 }
+
+function testQ(){
+
+
+	 var idVal = $('#newQuestion input[name=name]').val();
+	 var data = {};
+	//data.name = $('#newQuestion input[name=name]').val();//-->
+	data.name = document.getElementById("catDrop").value;
+	 data.question = $('#newQuestion input[name=question]').val();
+	 $.ajax({
+        type: "POST",
+        url: "http://localhost:5000/api/1/category/ ",
+        data: JSON.stringify(data),
+        headers: {"Accept": "application/json"}
+      }).done(function(res) {
+        console.log(res + data.name + data.question);
+      }
+
+)};
 
 
  
@@ -152,7 +169,14 @@ function tryToAdd(){
 <center>
 
 
-  
+  <form name="newQuestion" id="newQuestion">
+  	<input type="hidden" name="id">
+  	<!--<label for="name">Vilken kategori</label>
+  	<input type="text" name="name"><br>//-->
+  	  <label for="question">Ny fråga</label>
+      <input type="text" name="question"><br>
+    <button type="button" id="postQuestion" onclick="testQ()">Skicka</button>
+</form>
 
 <div = test >
 <section id="catSec"> 
@@ -166,18 +190,31 @@ function tryToAdd(){
         <input type="button" value="Show category" id="ShowCatButton" onclick="showCategory()">
       
          <input type="button" value="Remove category" id="removeCatButton" onclick="deleteCategory()">
-        <input type="button" value="Delete selected" id="deleteSelectedCat" onClick="removeCategory()">
-
-         <button type="button">Edit category</button>
+        <input type="button" value="Delete selected" id="deleteSelectedCat" onclick="removeCategory()">
+        <input type="button" value="test to add question" id="addQ" onclick="testQ()">
     
          
-    <td id="cats"> Categorys
+    <h1 td id="cats"> Categorys
       <div style="height:550px;width:820px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
          <select id="catDrop" name="Category"></select>
+
+     <form id="testform" hidden>
+    <input type="text" id="inputNameCat" value="New category...">
+     <input type="button" value="Submit" id="SubmitButton" onclick="addCategory()">
+   </form>
+
+   <form id="editForm" hidden>
+    <input type="button" value="Edit category" id="EditCategory" onclick="editCategory()">
+  </form>
+
+  <form id="drop" hidden>
+    <input type="let" value="Select category" id="dropDown">
+  </form>
          <ul id="Categorys">
           
        </ul>
       </div>
+
 
     
 </td>
