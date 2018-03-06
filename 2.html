@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<!-- This is a comment -->
+
+<head>
+
+<meta charset="UTF-8">
+<style type="text/css">
+ 
+
+
+
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript"></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" href="webLook.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script type="text/javascript">
+
+    function showCategory(){
+	var html = "";
+      $.ajax({
+        type: "GET",
+		dataType: "json",
+        url: "http://localhost:5000/api/1/category" ,
+        headers: {"Accept": "application/json"}
+}).done(function (res) {
+	console.log(res);
+	html = "";
+        list = $('#Categorys');
+        list.empty();
+      for(i = 0; i < res.length; i++) {
+    
+    html += '<li id=Categorys>' + res[i] + '</li> <br>';  
+    }
+  list.append(html); 
+})
+};
+
+
+function tryToAdd(){
+	var idVal = document.getElementById("inputNameCat").value;
+      $.ajax({
+        type: "POST",
+		data: JSON.stringify(idVal),
+        url: "http://localhost:5000/api/1/category" ,
+        headers: {"Accept": "application/json"}
+}).done(function (res) {
+	console.log(res);
+})
+};
+
+ 
+</script>
+</head>
+
+<body>
+
+
+
+<center>
+
+
+  
+
+<div = test >
+<section id="catSec"> 
+<table> 
+  <tr>
+
+     <br><br>
+     
+      <input type="button" value="Add category" id="AddButton" onclick="tryToAdd()">
+
+        <input type="button" value="Show category" id="ShowCatButton" onclick="showCategory()">
+      
+         <input type="button" value="Remove category" id="removeCatButton" onclick="deleteCategory()">
+        <input type="button" value="Delete selected" id="deleteSelectedCat" onClick="removeCategory()">
+
+    
+         
+    <h1 td id="cats" > Categorys
+      <div style="height:550px;width:820px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
+         <select id="catDrop" name="Category"></select>
+
+     <form id="testform" >
+    <input type="text" id="inputNameCat" value='New category...'  onfocus="if(this.value=='New category...') this.value='';">
+     <input type="button" value="Submit" id="SubmitButton" onclick="addCategory()">
+   </form><br>
+
+   <form id="editForm" >
+    <input type="button" value="Edit category" id="editCategory" onclick=">
+  </form>
+
+  <form id="drop" >
+    <input type="let" value="Select category" id="dropDown"  onfocus="if(this.value=='Select category' ) this.value='';">
+  </form>
+         <ul id="Categorys">
+          
+       </ul>
+      </div>
+
+
+    
+</td>
+</tr>
+</table>
+ 
+</section>
+</div>
+<center>
+</div>
+
+</body>
+</html>
