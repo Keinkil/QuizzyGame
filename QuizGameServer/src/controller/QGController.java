@@ -7,9 +7,14 @@ import static spark.Spark.options;
 import static spark.Spark.halt;
 import static spark.Spark.before;
 import static spark.Spark.post;
+import static spark.Spark.put;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.sun.javafx.scene.paint.GradientUtils.Parser;
+
+import category.Category;
+import qAndA.Question;
 
 /**
  * A controller class. Receives requests and acts upon them Uses Spark to handle
@@ -54,7 +59,7 @@ public class QGController {
 			}
 
 		});
-		
+
 		// get("/api/1/question/:id", (req, res) -> {
 		//
 		// String id = req.params(":id"); // find out what/who they want to know
@@ -79,24 +84,48 @@ public class QGController {
 				res.status(404);
 				System.out.println("Not found");
 				return "asdasd";
-			}else if(result > 0){
+			} else if (result > 0) {
 				res.status(200);
 			}
 			return "ok";
-			
-				
+
 		});
-		
+
 		post("/api/1/category/:id", (req, res) -> {
 			res.type("application/json");
 			res.status(200);
 			String id = req.params(":id");
 			Gson gson = new GsonBuilder().create();
-
-				String jsonArray = gson.toJson(cat.addCat(id));
-				return jsonArray;
+			String jsonArray = gson.toJson(cat.addCat(id));
+			return jsonArray;
+		});
+//Den här tror jag inte gör något
+		put("/api/1/category/:id", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			res.header("Access-Control-Allow-Origin", "*");
+			String name = req.body();
+			String id = req.params(":id");
+			System.out.println("är du dum " + id + " " + name);
+			Gson gson = new GsonBuilder().create();
+			String jsonArray = gson.toJson(cat.renameCategory(id, name));
+			return jsonArray;
 		});
 
-	}
+		//Post newQuestion
+		post ("/api/1/category/", (req,res) -> {
+			Question q =  new GsonBuilder()
+					.create()
+					.fromJson(req.body(), Question.class);
+		
+			System.err.println(q.getCategory() + q.getQuestion());
 
+			res.status(201);
+			String jsonArray = new GsonBuilder().create().toJson(cat.addQuestion(q));
+			return jsonArray;
+		}
+		
+		);
+
+	}
 }
