@@ -11,7 +11,7 @@
 
 
 </style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript"></script>
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
 <link rel="stylesheet" href="webLook.css">
@@ -104,7 +104,7 @@ function editCategory(){
   var data={};
   data.name = document.getElementById("catDrop").value;
   data.changeCat = $('#changeCategory input[name=changeCat]').val();
-  
+
 
  $.ajax({
         type: "PUT",
@@ -188,7 +188,7 @@ function postQ(){
 <center>
 
   <div class="header">
-    <img src="logo.png" alt="Logo">
+    <img src="images/logo.png" alt="Logo">
   </div>
 
 
@@ -239,7 +239,7 @@ function postQ(){
    </form>
 
    <form id="editForm" hidden>
-   
+
   </form>
 
   <form id="drop" hidden>
