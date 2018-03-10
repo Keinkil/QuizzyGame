@@ -75,7 +75,7 @@ function editCategory() {
   var data = {};
   data.name = document.getElementById("catDrop").value;
   data.changeCat = $('#changeCategory input[name=changeCat]').val();
-ö
+
   $.ajax({
     type: "PUT",
     url: "http://localhost:5000/api/1/category/",
