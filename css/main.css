@@ -1,0 +1,128 @@
+body {
+
+}
+
+.header {
+  padding: 30px;
+  text-align: center;
+  background-image: url("../images/background.png");
+  top: 0;
+  left: 0;
+  height: 248px;
+  width: 100%;
+  position: fixed;
+}
+
+h1 {
+  color: white;
+  margin-left: 20px;
+  margin-top: 0px;
+}
+
+.glyphicon {
+  float:right;
+  padding-left: 10px;
+}
+
+.form-control{
+display:inline;
+}
+
+#buttonAddCategory{
+margin-bottom: 2px;
+margin-left: 5px;
+}
+
+#categoryName {
+  width: 300px;
+}
+
+.list-group-item {
+  width: 442px;
+}
+
+#catSec button {
+  background-color: white;
+  color: black;
+  padding: 10px;
+  border: 2px solid #e7e7e7;
+  margin: 0px 10px;
+  border-radius: 15px;
+}
+
+#catSec button:hover {
+  background-color: #555555;
+  color: white;
+}
+
+.sidenav {
+    margin-top: 248px;
+    height: 100%;
+    width: 160px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+.sidenav h1 {
+  padding: 6px 6px 6px 32px;
+  text-decoration: none;
+  font-size: 16px;
+  color: white;
+  display: block;
+  font-weight: bold;
+  margin-left: 0px;
+}
+
+.sidenav a {
+    padding: 6px 6px 6px 32px;
+    text-decoration: none;
+    font-size: 14px;
+    color: #818181;
+    display: block;
+}
+
+li a.active {
+    background-color: #555;
+    color: white;
+}
+
+li a:hover:not(.active) {
+    background-color: #555;
+    color: white;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+li a {
+    display: block;
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+.contentMain{
+  margin: 20px;
+}
+
+.main {
+    margin-left: 160px; /* Same as the width of the sidenav */
+    margin-top: 268px;
+}
+
+.main *{
+  position: inherit;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
