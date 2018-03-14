@@ -37,8 +37,7 @@ function putChangedCategory(oldCategoryName, newCategoryName) {
    });
  }
 
-function getCategories(){
-  var html = " ";
+function getCategories(type){
   $.ajax({
     type: "GET",
     url: "http://localhost:5000/api/1/category",
@@ -46,7 +45,11 @@ function getCategories(){
       "Accept": "application/json"
     },
     success: function(res){
-      updateCategoryList(JSON.parse(res));
+      if(type === 1){
+        updateCategoryList(JSON.parse(res));
+      }else if(type === 2){
+        updateCategoryListInQuestions(JSON.parse(res));
+      }
     },
     error: function(XMLHttpRequest, textStatus, errorThrown) {
       alert("Status: " + textStatus + " Error: " + errorThrown);
@@ -108,3 +111,19 @@ function showQ() {
     console.log(res + "mannen");
   })
 };
+
+function getQuestions(categoryName){
+  $.ajax({
+    type: "GET",
+    url: "http://localhost:5000/api/1/question/" + categoryName,
+    headers: {
+      "Accept": "application/json"
+    },
+    success: function(res){
+      showFilteredQuestions(JSON.parse(res));
+    },
+    error: function(XMLHttpRequest, textStatus, errorThrown) {
+      alert("Status: " + textStatus + " Error: " + errorThrown);
+    }
+  });
+}

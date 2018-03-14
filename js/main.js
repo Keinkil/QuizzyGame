@@ -78,7 +78,7 @@ function refreshCategoryList(){
     + '<button type="button" class="btn btn-success" onclick="addNewCategory()" id="buttonAddCategory">Add new category</button>'
     + '</div>'
   );
-  getCategories();
+  getCategories(1);
 }
 
 function updateCategoryList(res){
@@ -189,9 +189,7 @@ function sendEditQuestion(questionID){
 function refreshCategoryPickerHeader(){
   $( ".contentMain").empty();
   $( ".contentMainHeader").empty();
-
-  //TODO Get categoryList from API, replace dummy-data below
-  var categoryArr = ["Dogs", "Cats", "Birds", "Cars", "Sausages", "Icecream"];
+  $( "#selectCategoryHeader").empty();
   $( ".contentMainHeader" ).append(
       '<h2>Question</h2>'
     + '<hr>'
@@ -222,39 +220,40 @@ function refreshCategoryPickerHeader(){
     + '<select class="form-control" id="selectCategoryHeader">'
     + '</div>'
   );
+getCategories(2);
+};
+
+function updateCategoryListInQuestions(result){
   //Adds empty string so nothing is preselectedS
   $( "#selectCategoryHeader").append(
       '<option></option>'
   );
-  for(var i = 0; i<categoryArr.length; i++){
+  for(var i = 0; i<result.length; i++){
     $( "#selectCategoryHeader").append(
-        '<option>' + categoryArr[i] + '</option>'
+        '<option>' + result[i] + '</option>'
     );
     $( "#multiBoxCategory").append(
-        '<option>' + categoryArr[i] + '</option>'
+        '<option>' + result[i] + '</option>'
     );
   }
 
   $('#selectCategoryHeader').change(function(){
-    var data = $(this).val();
-    if(data != ""){
-      showFilteredQuestions(data);
+    var categoryname = $(this).val();
+    if(categoryname != ""){
+      getQuestions(categoryname);
+    }else {
+      $(".contentMain").empty();
     }
   });
+}
 
-};
-
-function showFilteredQuestions(category){
+function showFilteredQuestions(questionsArr){
   $(".contentMain").empty();
-  //TODO replace questionsArr with the result from the API call (use category to call api)
-  //TODO the call should give the answers and the IDs
-  var questionsArr = [["Who loves candy?", 22], ["Who hates candy?", 33], ["Who eats most fruit?", 99], ["Who is superfunny?", 124]];
-
   $(".contentMain").append('<ul class="list-group">');
   for(var i = 0; i<questionsArr.length; i++){
     $( ".contentMain" )
       .append(
-        '<li class="list-group-item" value="' + questionsArr[i][1] + '" id="question' + i + '">' + questionsArr[i][0]
+        '<li class="list-group-item" value="' + questionsArr[i] + '" id="question' + i + '">' + questionsArr[i]
       + '<span class="glyphicon glyphicon-trash"  onclick="removeQuestion(question' + i + ')"></span>'
       + '<span class="glyphicon glyphicon-pencil" onclick="editQuestion(question' + i + ')"></span>'
       + '</li>'
