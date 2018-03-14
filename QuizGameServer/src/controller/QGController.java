@@ -12,6 +12,8 @@ import static spark.Spark.delete;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import category.Category;
+
 /**
  * A controller class. Receives requests and acts upon them Uses Spark to handle
  * HTTP requests and Google Gson to return JSONs
@@ -85,16 +87,17 @@ public class QGController {
 					System.out.println("API Call received was of the type: POST");
 					System.out.println();
 					String id = req.body();
+					Category category = new Gson().fromJson(req.body(), Category.class);
 					if (id != null) {
 						id = id.replace("\"", "");
 					}
-					if (cat.addCat(id) == 1) {
+					if (cat.addCat(category.getName()) == 1) {
 						res.type("application/json");
 						System.out.println("POST category: " + id);
 						System.out.println("Success 201: Created");
 						System.out.println();
 						res.status(201);
-						return "success";
+						return "{\"status\": \"ok\"}";
 					} else {
 						System.out.println("POST category attempt: " + id);
 						System.out.println("Error 409: Conflict");
