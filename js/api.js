@@ -88,6 +88,23 @@ function editCategory() {
   })
 };
 
+// function postNewCategory(categoryName){          //Såhär kan addCategory() (notera namnbytet på metoden) implementeras. Notera parametern också.
+//   $.ajax({
+//     type: "POST",
+//     url: "http://localhost:5000/api/1/category/" + categoryName,
+//     headers: {
+//       "Accept": "application/json"
+//     },
+//     success: function(){     //Success sker när ett anrop går igenom.
+//       return true;           //Man kan beskriva vad man vill ska hända vid en success
+//     },
+//     error: function(XMLHttpRequest, textStatus, errorThrown) {     //Error sker om anropet inte går igenom
+//       alert("Status: " + textStatus + " Error: " + errorThrown);   //I detta fall sker då en alert
+//       return false;
+//     }
+//   });
+// }
+
 function addCategory() {
   var idVal = document.getElementById("inputNameCat").value;
 
