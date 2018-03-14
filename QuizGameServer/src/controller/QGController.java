@@ -35,7 +35,7 @@ public class QGController {
 		// Set Spark to listen on port 5000.
 		port(5000);
 		CatController cat = new CatController();
-
+		QuestionController qc = new QuestionController();
 		path("/api/1", () -> {
 
 			before("//*", (req, res) -> {
@@ -193,24 +193,28 @@ public class QGController {
 				});
 			});
 			path("/question", () -> {
+				
 				get("/:id", (req, res) -> {
 					System.out.println("API Call received was of the type: GET");
-					System.out.println();
 					String id = req.params(":id");
-					try {
-						int question = Integer.parseInt(id);
+					if (id != null && !id.isEmpty()) {
+						System.out.println("GET category: " + id);
+						Gson gson = new GsonBuilder().create();
+						String jsonArray = gson.toJson(qc.getQuestionBasedOnCategory(id));
+						if (jsonArray != null) {
+							res.status(200);
+							System.out.println("Requested data:" + jsonArray);
+							System.out.println();
+							return jsonArray;
+						}else{
+							res.status(200);
+							System.out.println("empty");
+							return "{ \"status\": \"empty\" }";
+						}
+					}else{
 						res.status(503);
-					return "Request question failed, server returned " + res.status();
-
-					} catch (NumberFormatException e) {
-						System.out.println("GET question: " + id);
-						res.status(503);
-						return res.status();
-			
+						return "Request question failed, server returned " + res.status();
 					}
-					
-
-				
 				});
 
 	
