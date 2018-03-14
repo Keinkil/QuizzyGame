@@ -133,7 +133,7 @@ public class QGController {
 					System.out.println("API Call received was of the type: PUT");
 					System.out.println();
 					String id = req.params((":id"));
-					System.out.println("PUT category: " + id);
+					System.out.println("DELETE category: " + id);
 
 					String newId = req.body();
 					if (newId != null) {
