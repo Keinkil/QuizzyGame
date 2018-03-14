@@ -6,11 +6,9 @@ function deleteCategory(categoryName) {
       "Accept": "options"
    },
     success: function(res){
-      console.log(res);
-      removeCategory(res);
-      
+      refreshCategoryList()
     },
-    error: function(XMLHttpRequest, textStatus, errorThrown) { 
+    error: function(XMLHttpRequest, textStatus, errorThrown) {
       alert("Status: " + textStatus + " Error: " + errorThrown);
     }
   });

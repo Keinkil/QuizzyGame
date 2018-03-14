@@ -8,11 +8,6 @@
 function removeCategory(category){
   var categoryName = $(category).text();
   deleteCategory(categoryName);
-  alert("Removed category: " + categoryName);
-
-  //Refresh list after call
-  //Doesn't refresh
-  refreshCategoryList();
 };
 
 function editCategory(category){
