@@ -7,10 +7,11 @@
 ////////////////////////////
 function removeCategory(category){
   var categoryName = $(category).text();
-  //TODO Call API with name of category in order to remove it
+  deleteCategory(categoryName);
   alert("Removed category: " + categoryName);
 
   //Refresh list after call
+  //Doesn't refresh
   refreshCategoryList();
 };
 
@@ -37,10 +38,9 @@ function editCategory(category){
 function sendEditCategory(editCategory){
   var newCategoryName = $("#categoryNameEdit").val();
   if(newCategoryName != ""){
-    //TODO AJAX CALL
+    putChangedCategory(editCategory, newCategoryName);
     alert("Ajax call - oldCategoryName: " + editCategory + " newCategoryName: " + newCategoryName);
 
-    //TODO Refresh list if successful call was made to API
     refreshCategoryList();
   }else{
     alert("Didn't save changes. You must enter at least one character.")
@@ -59,7 +59,9 @@ function addNewCategory(){
 
 function showNewlyAddedCategory(){
   var total = $(".contentMain li").length;
-  var categoryName = $('#categoryName').val();
+ var categoryName = $('#categoryName').val();
+
+
   $(".contentMain" ).append(
       '<li class="list-group-item" id="category' + total + '">' + categoryName
     + '<span class="glyphicon glyphicon-trash"  onclick="removeCategory(category' + total + ')"></span>'
@@ -69,7 +71,7 @@ function showNewlyAddedCategory(){
   $("#categoryName").val('');
 }
 
-function refreshCategoryList(res){
+function refreshCategoryList(){
   $( ".contentMainHeader").empty();
   $( ".contentMain").empty();
   $( ".contentMainHeader" ).append(
