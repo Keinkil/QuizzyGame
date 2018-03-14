@@ -121,7 +121,7 @@ public class QGController {
 					if (cat.renameCategory(id, newId)) {
 						res.status(200);
 						System.out.println();
-						return "ok";
+						return "{\"status\": \"ok\"}";
 					} else {
 						res.status(404);
 						System.out.println();
