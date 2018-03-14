@@ -92,49 +92,35 @@ function editCategory() {
 function getCategories(){
   var html = " ";
   $.ajax({
-    type: "GET", 
-    url: "http://localhost:5000/api/1/category ",
+    type: "GET",
+    url: "http://localhost:5000/api/1/category",
     headers: {
       "Accept": "application/json"
     },
-
-
     success: function(res){
-      console.log(res);
-   
-   
-         html = JSON.parse(res);
-        refreshCategoryList(html);
-    //  alert("STATUS " + html)
-
- // return true;
- }, 
-
- error: function(XMLHttpRequest, textStatus, errorThrown) {  
- alert("Status: " + textStatus + " Error: " + errorThrown);
- return false;
+      updateCategoryList(JSON.parse(res));
+    },
+    error: function(XMLHttpRequest, textStatus, errorThrown) {
+      alert("Status: " + textStatus + " Error: " + errorThrown);
+    }
+  });
 }
- });
-
-} 
-
-
-
-  
 
  function postNewCategory(categoryName){          //Såhär kan addCategory() (notera namnbytet på metoden) implementeras. Notera parametern också.
    $.ajax({
     type: "POST",
     url: "http://localhost:5000/api/1/category/" + categoryName,
+    data: data,
      headers: {
       "Accept": "application/json"
      },
-     success: function(){     //Success sker när ett anrop går igenom.
-      return true;           //Man kan beskriva vad man vill ska hända vid en success
+     success: function(result){     //Success sker när ett anrop går igenom.
+       showNewlyAddedCategory(result);
      },
      error: function(XMLHttpRequest, textStatus, errorThrown) {     //Error sker om anropet inte går igenom
-       alert("Status: " + textStatus + " Error: " + errorThrown);   //I detta fall sker då en alert
-      return false;
+       alert("Status: " + textStatus + " Error: " + errorThrown); //I detta fall sker då en alert
+       alert("Couldn't create your category: " + categoryName);
+
      }
    });
  }
