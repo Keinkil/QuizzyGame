@@ -52,6 +52,7 @@ function addNewCategory(){
   var categoryName = $('#categoryName').val();
   var total = $(".contentMain li").length;
   if(categoryName != ""){
+    postNewCategory(categoryName);
     //TODO Call create new category (API)
     //Use categoryName when you call API
     //If successful do below
@@ -81,9 +82,15 @@ function addNewCategory(){
   }
 }
 
-function refreshCategoryList(){
+function refreshCategoryList(res){
+  getCategories();
+ 
   //TODO Get categoryList from API, replace dummy-data below
-  var categoryArr = ["Dogs", "Cats", "Birds", "Cars", "Sausages", "Icecream"];
+
+        
+
+
+  /*var categoryArr = ["Dogs", "Cats", "Birds", "Cars", "Sausages", "Icecream"];*/
   $( ".contentMainHeader").empty();
   $( ".contentMain").empty();
   $( ".contentMainHeader" ).append(
@@ -97,17 +104,21 @@ function refreshCategoryList(){
   );
 
   $( ".contentMain" ).append('<ul class="list-group">');
-  for(var i = 0; i<categoryArr.length; i++){
+  //for(var i = 0; i<categoryArr.length; i++){
+      for(var i = 0; i<res.length; i++){
     $( ".contentMain" )
       .append(
-        '<li class="list-group-item" id="category' + i + '">' + categoryArr[i]
+      //  '<li class="list-group-item" id="category'+ '">' + categoryArr[i]
+        '<li class="list-group-item" id="category'+ i + '">' + res[i]
       + '<span class="glyphicon glyphicon-trash"  onclick="removeCategory(category' + i + ')"></span>'
       + '<span class="glyphicon glyphicon-pencil" onclick="editCategory(category' + i + ')"></span>'
       + '</li>'
     );
   }
   $( ".contentMain" ).append('</ul>');
-}
+ 
+
+  }
 ////////////////////////////
 //////// CATEGORIES ////////
 ////////     END    ////////
