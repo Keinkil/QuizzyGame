@@ -113,6 +113,7 @@ function addNewQuestion(){
     var reader  = new FileReader();
     if(typeof files.files[0] === 'undefined'){
       //TODO post to API (without file)
+          postNewQuestion(categories, question);
       //TODO If successful refresh UI
       refreshCategoryPickerHeader();
     }else{
@@ -133,9 +134,14 @@ function removeQuestion(question){
   var questionName = $(question).text();
   var questionID = $(question).val();
   //TODO Call API with questionID and remove it
+    deleteQuestion(questionID);
   alert("Removed question: " + questionName + " questionID: " + questionID);
 
-  //Refresh list after call
+ 
+};
+
+function refreshDeletedQuestionList(){
+   //Refresh list after call
   var selectedCategory = $('#selectCategoryHeader').val();
   showFilteredQuestions(selectedCategory);
 };
@@ -261,6 +267,8 @@ function showFilteredQuestions(questionsArr){
   }
   $( ".contentMain" ).append('</ul>');
 }
+
+
 ///////////////////////////
 //////// QUESTIONS ////////
 ////////    END    ////////
