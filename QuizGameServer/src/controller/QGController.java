@@ -120,11 +120,11 @@ public class QGController {
 					System.out.println("Attempt to rename category " + id + " to " + newId);
 					if (cat.renameCategory(id, newId)) {
 						res.status(200);
-						System.out.println();
+						System.out.println("RIGHT");
 						return "{\"status\": \"ok\"}";
 					} else {
 						res.status(404);
-						System.out.println();
+						System.out.println("WRONG");
 						return "not ok";
 					}
 				});

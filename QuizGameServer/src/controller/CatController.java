@@ -42,6 +42,7 @@ public class CatController {
 		if (index != -1) {
 			Category reCat = category.get(index);
 			reCat.setName(name);
+			return true;
 		}
 		return false;
 	}
