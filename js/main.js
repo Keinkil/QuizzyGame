@@ -134,7 +134,8 @@ function removeQuestion(question){
   var questionName = $(question).text();
   var questionID = $(question).val();
   //TODO Call API with questionID and remove it
-    deleteQuestion(questionID);
+  deleteQuestion(questionID);
+  refreshDeletedQuestionList();
   alert("Removed question: " + questionName + " questionID: " + questionID);
 
  
@@ -143,7 +144,7 @@ function removeQuestion(question){
 function refreshDeletedQuestionList(){
    //Refresh list after call
   var selectedCategory = $('#selectCategoryHeader').val();
-  showFilteredQuestions(selectedCategory);
+  getQuestions(selectedCategory);
 };
 
 function editQuestion(question){
@@ -186,6 +187,7 @@ function sendEditQuestion(questionID){
   var newQuestion = $('#questionNameEdit').val();
   if(selectedCategories != "" && newQuestion != ""){
     //TODO AJAX CALL
+    putChangeQuestion(questionID, newQuestion, selectedCategories);
     alert("Ajax call - questionID: " + questionID + " newQuestion: " + newQuestion + " selectedCategories: " + selectedCategories);
   }else{
     alert("Didn't save changes. Please enter at least one character and choose at least one category.")
@@ -257,11 +259,12 @@ function showFilteredQuestions(questionsArr){
   $(".contentMain").empty();
   $(".contentMain").append('<ul class="list-group">');
   for(var i = 0; i<questionsArr.length; i++){
+    console.log(questionsArr[i]);
     $( ".contentMain" )
       .append(
-        '<li class="list-group-item" value="' + questionsArr[i] + '" id="question' + i + '">' + questionsArr[i]
-      + '<span class="glyphicon glyphicon-trash"  onclick="removeQuestion(question' + i + ')"></span>'
-      + '<span class="glyphicon glyphicon-pencil" onclick="editQuestion(question' + i + ')"></span>'
+        '<li class="list-group-item" value="' + questionsArr[i].id + '" id="question' + questionsArr[i].id + '">' + questionsArr[i].question
+      + '<span class="glyphicon glyphicon-trash"  onclick="removeQuestion(question' + questionsArr[i].id + ')"></span>'
+      + '<span class="glyphicon glyphicon-pencil" onclick="editQuestion(question' + questionsArr[i].id + ')"></span>'
       + '</li>'
     );
   }

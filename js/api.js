@@ -151,10 +151,22 @@ function getQuestions(categoryName){
 }
 
 
-function putChangeQuestion(questionID, question){
-  var data = question;
+function putChangeQuestion(questionID, question, category){
+	var dataQ = question + ',';
+	console.log(category.length);
+	for(var i = 0; i<category.length; i++){
+		if(i == category.length) {
+		dataQ += (category[i]);
+	} else {
+		dataQ +=(category[i] + ',');
+	}
+	}
+	console.log(dataQ);  
   $.ajax({
     type: "PUT",
+    dataType: "json",
+    contentType: "application/json",
+    data: JSON.stringify(dataQ),
     url: "http://localhost:5000/api/1/question/" + questionID,
     headers: {
       "Accept": "application/json"
