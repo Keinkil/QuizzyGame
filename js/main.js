@@ -34,8 +34,6 @@ function sendEditCategory(editCategory){
   var newCategoryName = $("#categoryNameEdit").val();
   if(newCategoryName != ""){
     putChangedCategory(editCategory, newCategoryName);
-    alert("Ajax call - oldCategoryName: " + editCategory + " newCategoryName: " + newCategoryName);
-
     refreshCategoryList();
   }else{
     alert("Didn't save changes. You must enter at least one character.")
@@ -138,7 +136,7 @@ function removeQuestion(question){
   refreshDeletedQuestionList();
   alert("Removed question: " + questionName + " questionID: " + questionID);
 
- 
+
 };
 
 function refreshDeletedQuestionList(){
@@ -281,10 +279,7 @@ function showFilteredQuestions(questionsArr){
 ///////////////////////////
 ////////  ANSWERS  ////////
 ///////////////////////////
-function refreshAnswers(){
-  //TODO replace questionsArr with the result from the API call (use category to call api)
-  //TODO the call should give the answers and the IDs
-  var questionsArr = [["Who loves candy?", 22], ["Who hates candy?", 33], ["Who eats most fruit?", 99], ["Who is superfunny?", 124]];
+function refreshAnswers(questionsArr){
   $( ".contentMainHeader").empty();
   $( ".contentMain").empty();
   $( ".contentMainHeader" ).append(
@@ -302,7 +297,7 @@ function refreshAnswers(){
   );
   for(var i = 0; i<questionsArr.length; i++){
     $( "#selectQuestion").append(
-        '<option value="' + questionsArr[i][1] + '">' + questionsArr[i][0] + '</option>'
+        '<option value="' + questionsArr[i].id + '">' + questionsArr[i].question + '</option>'
     );
   }
 
@@ -315,9 +310,11 @@ function refreshAnswers(){
 }
 
 function listAnswers(questionID){
-  //TODO get answers based on questionsID
-  //TODO the API-call should give the answerID, answer, correctAnswer(true/false), placeholder below (API should most likely return correct answer first so it's listed on top???)
-  var answersArr = [["Albert Einstein", 11, true], ["Abraham Lincoln", 33, false], ["Elon Musk", 99, false], ["Bill Gates", 124, false]];
+
+  getAllAnswersBasedOnQuestion(questionID);
+}
+
+function displayAnswersBasedOnQuesiton(answersJson){
   $(".contentMain").empty();
   $(".contentMain").append(
       '<ul class="list-group">'
@@ -325,11 +322,11 @@ function listAnswers(questionID){
     + '<button type="button" class="btn btn-success" onclick="addNewAnswer()" id="buttonAddAnswer">Add new answer</button>'
   );
 
-  for(var i = 0; i<answersArr.length; i++){
+  for(var i = 0; i<answersJson.length; i++){
     var styleRowLi = "";
     var styleRowEdit = "";
     var trashcan = "";
-    if(answersArr[i][2]){
+    if(answersJson[i].correctAnswer){
       styleRowLi = 'style="background-color:green;"';
       styleRowEdit = 'style="margin-right:24px;"';
     }else{
@@ -337,7 +334,7 @@ function listAnswers(questionID){
     }
 
     $(".contentMain").append(
-        '<li class="list-group-item" ' + styleRowLi + ' value="' + answersArr[i][1] + '" id="answer' + i + '">' + answersArr[i][0]
+        '<li class="list-group-item" ' + styleRowLi + ' value="' + answersJson[i].id + '" id="answer' + i + '">' + answersJson[i].answer
       + trashcan
       + '<span class="glyphicon glyphicon-pencil" ' + styleRowEdit + ' onclick="editAnswer(answer' + i + ')"></span>'
       + '</li>'
@@ -350,7 +347,6 @@ function editAnswer(answer){
   $("#dialogModal").modal();
   var answerName = $(answer).text();
   var answerID = $(answer).val();
-
   $("#dialogModalTitel").empty();
   $("#dialogModalTitel").html(answerName);
   $("#dialogModalBody").empty();
@@ -370,11 +366,7 @@ function editAnswer(answer){
 function sendEditAnswer(answerID){
   var newAnswerName = $("#answerNameEdit").val();
   if(newAnswerName != ""){
-    //TODO AJAX CALL edit answer look below
-    alert("Ajax call - answerID: " + answerID + " newAnswerName: " + newAnswerName);
-    //TODO Refresh list if successful call was made to API
-    var questionID = $('#selectQuestion').val();
-    listAnswers(questionID);
+    putAnswer(answerID, newAnswerName);
   }else{
     alert("Didn't save changes, answer needs to be at least one character!")
   }
@@ -386,31 +378,17 @@ function addNewAnswer(){
   var total = $(".contentMain li").length;
 
   if(answerName != "" && questionID != ""){
-    //TODO Call create answer category (API)
-    //Use answerName and questionID when you call API
-    //If successful do below
-    $(".contentMain" ).append(
-        '<li class="list-group-item" id="answer' + total + '">' + answerName
-      + '<span class="glyphicon glyphicon-trash"  onclick="removeAnswer(answer' + total + ')"></span>'
-      + '<span class="glyphicon glyphicon-pencil" onclick="editAnswer  (answer' + total + ')"></span>'
-      + '</li>'
-    );
+    postNewAnswer(questionID, answerName)
     $("#answerName").val('');
   }else {
     alert("Please enter your answer and choose a question!");
   }
 }
 
+
 function removeAnswer(answer){
   var answerID = $(answer).val();
-  var answerName = $(answer).text();
-  //TODO Call API with id
-  alert("Removed question: " + answerName + " answerID: " + answerID);
-  var selectedCategory = $('#selectCategoryHeader').val();
-
-  //Refresh list after call
-  var questionID = $('#selectQuestion').val();
-  listAnswers(questionID);
+  deleteAnswer(answerID);
 };
 ///////////////////////////
 ////////  ANSWERS  ////////
@@ -430,8 +408,8 @@ $(window).on('load', function(){
   });
 
   $("#answersMenu").on('click', function() {
-    refreshAnswers();
     $( ".contentMain").empty();
+    getAllQuestions();
   });
 
   $('a').click(function(){

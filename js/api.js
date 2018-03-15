@@ -124,10 +124,10 @@ function postNewQuestion(categories, question) {
     success: function(res){
         refreshDeletedQuestionList();
        console.log(res);
-      
-      
+
+
     },
-    error: function(XMLHttpRequest, textStatus, errorThrown) { 
+    error: function(XMLHttpRequest, textStatus, errorThrown) {
       alert("Status: " + textStatus + " Error: " + errorThrown);
     }
   });
@@ -150,6 +150,22 @@ function getQuestions(categoryName){
   });
 }
 
+function getAllQuestions(){
+  $.ajax({
+    type: "GET",
+    url: "http://localhost:5000/api/1/question/all/",
+    headers: {
+      "Accept": "application/json"
+    },
+    success: function(res){
+      refreshAnswers(JSON.parse(res));
+    },
+    error: function(XMLHttpRequest, textStatus, errorThrown) {
+      alert("Status: " + textStatus + " Error: " + errorThrown);
+    }
+  });
+}
+
 
 function putChangeQuestion(questionID, question, category){
 	var dataQ = question + ',';
@@ -161,7 +177,7 @@ function putChangeQuestion(questionID, question, category){
 		dataQ +=(category[i] + ',');
 	}
 	}
-	console.log(dataQ);  
+	console.log(dataQ);
   $.ajax({
     type: "PUT",
     dataType: "json",
@@ -173,10 +189,89 @@ function putChangeQuestion(questionID, question, category){
    },
     success: function(res){
       refreshCategoryPickerHeader();
-      
+
     },
-    error: function(XMLHttpRequest, textStatus, errorThrown) { 
+    error: function(XMLHttpRequest, textStatus, errorThrown) {
       alert("Status: " + textStatus + " Error: " + errorThrown);
+    }
+  });
+}
+
+////////////////////////////
+//////// QUESTIONS ////////
+////////     END    ////////
+////////////////////////////
+
+///////////////////////////
+////////  Answers  ////////
+///////////////////////////
+
+function getAllAnswersBasedOnQuestion(id){
+  $.ajax({
+    type: "GET",
+    url: "http://localhost:5000/api/1/answer/" + id + "",
+    headers: {
+      "Accept": "application/json"
+    },
+    success: function(res){
+      displayAnswersBasedOnQuesiton(JSON.parse(res));
+    },
+    error: function(XMLHttpRequest, textStatus, errorThrown) {
+      alert("Status: " + textStatus + " Error: " + errorThrown);
+    }
+  });
+}
+
+function postNewAnswer(questionID, answer) {
+  var data = '{ "answer":' + answer + '}';
+  $.ajax({
+    type: "POST",
+    url: "http://localhost:5000/api/1/answer/" + questionID,
+    data: data,
+    headers: {
+      "Accept": "application/json"
+    },
+    success: function(result){     //Success sker när ett anrop går igenom.
+      getAllAnswersBasedOnQuestion(questionID);
+    },
+    error: function(XMLHttpRequest, textStatus, errorThrown) {     //Error sker om anropet inte går igenom
+      alert("Status: " + textStatus + " Error: " + errorThrown); //I detta fall sker då en alert
+    }
+  });
+}
+
+function deleteAnswer(answerID) {
+  $.ajax({
+    type: "DELETE",
+    url: "http://localhost:5000/api/1/answer/" + answerID,
+    headers: {
+      "Accept": "options"
+   },
+    success: function(res){
+      var questionID = $('#selectQuestion').val();
+      getAllAnswersBasedOnQuestion(questionID);
+    },
+    error: function(XMLHttpRequest, textStatus, errorThrown) {
+      alert("Status: " + textStatus + " Error: " + errorThrown);
+    }
+  });
+}
+
+function putAnswer(answerID, newAnswer) {
+  var data = '{ "answer":\"' + newAnswer + '\"}';
+  $.ajax({
+    type: "PUT",
+    url: "http://localhost:5000/api/1/answer/" + answerID,
+    data: data,
+    headers: {
+      "Accept": "application/json"
+    },
+    success: function(result){     //Success sker när ett anrop går igenom.
+      var questionID = $('#selectQuestion').val();
+      getAllAnswersBasedOnQuestion(questionID);
+    },
+    error: function(XMLHttpRequest, textStatus, errorThrown) {     //Error sker om anropet inte går igenom
+      alert("Status: " + textStatus + " Error: " + errorThrown); //I detta fall sker då en alert
     }
   });
 }
