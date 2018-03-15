@@ -2,30 +2,66 @@ package controller;
 
 import java.util.ArrayList;
 
-import category.Category;
 import qAndA.Question;
 
 public class QuestionController {
 	private ArrayList<Question> questions = new ArrayList<Question>();
-	
-	public QuestionController(){
-		questions.add(new Question("Geometri", "Är en cirkel rund?"));
-		questions.add(new Question("Geometri", "Är en kub rund?"));
-		questions.add(new Question("Algebra", "1 + 1 = ?"));
-		questions.add(new Question("Algebra", "3 + 6 = ?"));
+
+	// public ArrayList<Question> getQuestionBasedOnCategory(String category) {
+	// ArrayList<Question> filteredList = new ArrayList<Question>();
+	// for (Question q : questions) {
+	// if (q.getCategory().equals(category)) {
+	// filteredList.add(q.getQuestion());
+	// }
+	// }
+	// return filteredList;
+	// }
+
+	public void addQuestion(Question q) {
+		questions.add(q);
 	}
 	
-	
-	public ArrayList<String> getQuestionBasedOnCategory(String category) {
-		ArrayList<String> filteredList = new ArrayList<String>();
-		for (Question q : questions) {
-			if (q.getCategory().equals(category)) {
-				filteredList.add(q.getQuestion());
+	public Question getQ(int qid) {
+		for(Question q : questions) {
+			if (q.getId() == qid) {
+				return q;
 			}
 		}
-		return filteredList;
+		return null;
 	}
-	
-	
-	
+
+	public int removeQuestion(int qid) {
+		int returnvalue = -1;
+		Question temp = new Question("");
+		for (int i = 0; i < questions.size(); i++) {
+			if (questions.get(i).getId() == qid) {
+				temp = questions.get(i);
+				returnvalue = 1;
+				break;
+			}
+		}
+		questions.remove(temp);
+		return returnvalue;
+	}
+
+	public int changeQuestion(int id, String question) {
+		int returnValue = -1;
+		Question temp = new Question("");
+		for (int i = 0; i < questions.size(); i++) {
+			if (questions.get(i).getId() == id) {
+				temp = questions.get(i);
+				returnValue = 1;
+				break;
+			}
+		}
+		if (returnValue == 1) {
+			
+			System.out.println("Changed Question with id " + id + " from "
+					+ temp.getName() + " to " + question);
+			temp.setQuestion(question);
+		}
+
+		return returnValue;
+	}
+
 }

@@ -1,7 +1,6 @@
 package controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import category.Category;
 import qAndA.Question;
@@ -16,7 +15,6 @@ public class CatController {
 		category.add(new Category("Trigonometri"));
 		category.add(new Category("Geometri"));
 		category.add(new Category("Algebra"));
-
 	}
 
 	public int catExists(String cat) {
@@ -73,23 +71,26 @@ public class CatController {
 		return -1;
 
 	}
-
-	// LYKKE TEST
-	// public void showQuestion(String cat) {
-	// if (getCategoryNames().equals(cat)) {
-	// category.get(0).getQuestion();
-	// }
-	// }
-
-	public Question addQuestion(Question q) {
-
-		for (int i = 0; i < category.size(); i++)
-
-			if (category.get(i).getName().equals(q.getCategory()))
-				System.out.println("whad iiiiis this i add?? ");
-
-		return q;
-
+	
+	public void addQToCat(Question q, String name) {
+		for(Category c : category) {
+			if(c.getName().equals(name)) {
+				c.addQuestion(q);
+			}
+		}
+	}
+	
+	public Category getCat(String name) {
+		for(Category c : category) {
+			if(c.getName().equals(name)) {
+				return c;
+			}
+		}
+		return null;
+	}
+	
+	public ArrayList<Category> getAllCats() {
+		return category;
 	}
 
 }
