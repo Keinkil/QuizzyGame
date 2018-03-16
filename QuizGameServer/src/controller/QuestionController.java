@@ -17,8 +17,9 @@ public class QuestionController {
 	// return filteredList;
 	// }
 
-	public void addQuestion(Question q) {
+	public Question addQuestion(Question q) {
 		questions.add(q);
+		return q;
 	}
 	
 	public Question getQ(int qid) {

@@ -20,9 +20,6 @@ import qAndA.Question;
  * A controller class. Receives requests and acts upon them Uses Spark to handle
  * HTTP requests and Google Gson to return JSONs
  * 
- * @author Rikard Almgren
- * @version 1.0
- *
  */
 public class QGController {
 
@@ -125,14 +122,14 @@ public class QGController {
 						if (jsonArray != null) {
 							res.status(200);
 							System.out.println("Requested data:" + jsonArray);
-							System.out.println();
+							System.err.println(res.status());
 							return jsonArray;
 
 						}
 					}
 					res.status(200);
 					System.out.println("empty");
-					return "ok";
+					return res.status();
 				});
 
 				post("", (req, res) -> {
@@ -149,13 +146,14 @@ public class QGController {
 						System.out.println("Success 201: Created");
 						System.out.println();
 						res.status(201);
-						return "{\"status\": \"ok\"}";
+//						return "{\"status\": \"ok\"}";
+						return res.status();
 					} else {
 						System.out.println("POST category attempt: " + id);
 						System.out.println("Error 409: Conflict");
 						System.out.println();
 						res.status(409);
-						return "conflict";
+						return res.status();
 					}
 				});
 
@@ -173,11 +171,12 @@ public class QGController {
 					if (cat.renameCategory(id, newId)) {
 						res.status(200);
 						System.out.println("RIGHT");
-						return "{\"status\": \"ok\"}";
+//						return "{\"status\": \"ok\"}";
+						return res.status();
 					} else {
 						res.status(404);
 						System.out.println("WRONG");
-						return "not ok";
+						return res.status();
 					}
 				});
 
@@ -195,11 +194,11 @@ public class QGController {
 					if (cat.removeCategory(id) > 0) {
 						res.status(200);
 						System.out.println();
-						return "deleted";
+						return res.status();
 					} else {
 						res.status(404);
 						System.out.println();
-						return "404";
+						return res.status();
 					}
 				});
 
@@ -224,7 +223,7 @@ public class QGController {
 						} else {
 							res.status(200);
 							System.out.println("empty");
-							return "{ \"status\": \"empty\" }";
+							return res.status();
 						}
 					} else {
 						res.status(503);
@@ -232,28 +231,62 @@ public class QGController {
 					}
 				});
 				
+				//Hm. 
 				get("/all/", (req, res) -> {
 					System.out.println("API Call received was of the type: GET");
 						String jsonArray = gson.toJson(cat.getAllQuestions());
+						
 						if (jsonArray != null) {
 							res.status(200);
 							System.out.println("Requested data:" + jsonArray);
 							System.out.println();
 							return jsonArray;
 						} else {
-							res.status(200);
+							res.status(409);
 							System.out.println("empty");
-							return "{ \"status\": \"empty\" }";
+//							return "{ \"status\": \"empty\" }";
+							return res.status();
 						}
 				});
 
 
 				post("", (req, res) -> {
-					System.out.println("API Call received was of the type: POST");
-					System.out.println();
-					res.status(503);
-					return res.status();
-				});
+				System.out.println("API Call received was of the type: POST");
+				System.out.println();
+				String reqb = req.body();
+				String[] test2 = reqb.split(",");
+				int id = 0;
+				Question q = null;
+				for (String s : test2) {
+					System.out.println(s);
+				}
+				for (int i = 0; i < test2.length; i++) {
+					if(i == 0){
+						if(test2[i].contains("base64")){
+						res.status(503);
+							return res.status();
+						}
+					q = qc.addQuestion(new Question(test2[i]));
+
+					id = q.getId();
+					} else if(i == 1) {
+						Answer a = new Answer(test2[1], true);
+						q.addAnswer(a);
+					} else {
+						q = qc.getQ(id);
+						if (cat.getCat(test2[i]) != null) {
+							cat.getCat(test2[i]).addQuestion(q);
+					}
+				
+					
+					} 
+				
+						res.status(201);
+					
+				}
+				System.out.println("Try to POST new Question ");
+				return res.status();
+			});
 
 				// Ska det göras mer här, läs: If a PUT-request alters the correct answer...
 				put("/:id", (req, res) -> {
@@ -277,6 +310,7 @@ public class QGController {
 							Question q = qc.getQ(id);
 							if (cat.getCat(test2[i]) != null) {
 								cat.getCat(test2[i]).addQuestion(q);
+								res.status(200);
 							}
 						}
 					}
@@ -319,13 +353,15 @@ public class QGController {
 					}catch (NumberFormatException e) {					
 						res.status(400);
 						System.out.println("Bad request");
-						return "{ \"status\": \"Accept only number for this call.\" }";
+//						return "{ \"status\": \"Accept only number for this call.\" }";
+						return res.status();
 					}
 					
 					if(question == null){
 						res.status(406);
 						System.out.println("Couldn't find question");
-						return "{ \"status\": \"Couldn't find entity\" }";
+//						return "{ \"status\": \"Couldn't find entity\" }";
+						return res.status();
 					}
 				
 					String jsonArray = gson.toJson(question.getAnswers());
@@ -337,7 +373,8 @@ public class QGController {
 					} else {
 						res.status(200);
 						System.out.println("empty");
-						return "{ \"status\": \"empty\" }";
+//						return "{ \"status\": \"empty\" }";
+						return res.status();
 					}
 				});
 
@@ -350,7 +387,9 @@ public class QGController {
 					}catch (NumberFormatException e) {					
 						res.status(400);
 						System.out.println("Bad request");
-						return "{ \"status\": \"Accept only number for this call.\" }";
+						return res.status();
+
+//						return "{ \"status\": \"Accept only number for this call.\" }";
 					}
 					
 					Answer newAnswer = gson.fromJson(req.body(), Answer.class);
@@ -360,11 +399,14 @@ public class QGController {
 						question.addAnswer(newAnswer);
 						res.status(200);
 						System.out.println("Ok");
-						return "{ \"status\": \"Created new answer!\" }";
+						return res.status();
+//						return "{ \"status\": \"Created new answer!\" }";
 					}else{
 						res.status(400);
 						System.out.println("Bad request");
-						return "{ \"status\": \"Accept only number for this call.\" }";
+//						return "{ \"status\": \"Accept only number for this call.\" }";
+
+						return res.status();
 					}					
 				});
 
@@ -376,20 +418,25 @@ public class QGController {
 					}catch (NumberFormatException e) {					
 						res.status(400);
 						System.out.println("Bad request");
-						return "{ \"status\": \"Accept only number for this call.\" }";
+						return res.status();
+
+//						return "{ \"status\": \"Accept only number for this call.\" }";
 					}
 					System.out.println(req.body());
 					Answer editAnswer = gson.fromJson(req.body(), Answer.class);
 					if(editAnswer.getName().equals("")){
 						res.status(400);
 						System.out.println("Bad request");
-						return "{ \"status\": \"Answer can't be empty string!\" }";
+						return res.status();
+
+//						return "{ \"status\": \"Answer can't be empty string!\" }";
 					}else{
 						System.out.println("Try to PUT answer with id " + id + " with the answer " + editAnswer.getName());
 						cat.changeAnswer(intId, editAnswer.getName());
 						res.status(200);
 						System.out.println("Ok");
-						return "{ \"status\": \"Edit is now done..\" }";
+						return res.status();
+//						return "{ \"status\": \"Edit is now done..\" }";
 					}					
 				});
 
@@ -404,34 +451,26 @@ public class QGController {
 					}catch (NumberFormatException e) {					
 						res.status(400);
 						System.out.println("Bad request");
-						return "{ \"status\": \"Accept only number for this call.\" }";
+						return res.status();
+
+//						return "{ \"status\": \"Accept only number for this call.\" }";
 					}
 					
 					if(answerResult == 1){
 						res.status(200);
 						System.out.println("Ok");
-						return "{ \"status\": \"Removed the answer!\" }";
+						//return "{ \"status\": \"Removed the answer!\" }";
+						return res.status();
+						
 					}else{
 						res.status(400);
 						System.out.println("Bad request");
-						return "{ \"status\": \"Couldn't find the resource!\" }";
+						return res.status();
+//						return "{ \"status\": \"Couldn't find the resource!\" }";
 					}	
 				});
 
 				options("/:id", (req, res) -> {
-//					System.out.println(
-//							"API Call received was of the type: " + req.headers("Access-Control-Request-Method"));
-//					System.out.println();
-//					String id = req.params((":id"));
-//					if (req.headers("Access-Control-Request-Method").equals("DELETE")) {
-//						System.out.println("DELETE answer: " + id);
-//					}
-//					if (req.headers("Access-Control-Request-Method").equals("PUT")) {
-//						System.out.println("PUT question: " + id);
-//					}
-//					res.type("application/json");
-//					System.out.println();
-//					return "";
 					return "";
 				});
 			});
