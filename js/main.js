@@ -7,12 +7,14 @@
 ////////////////////////////
 function removeCategory(category){
   var categoryName = $(category).text();
+  categoryName = categoryName.trim();
   deleteCategory(categoryName);
 };
 
 function editCategory(category){
   $("#dialogModal").modal();
   var categoryName = $(category).text();
+  categoryName = categoryName.trim();
   $("#dialogModalTitel").empty();
   $("#dialogModalTitel").html(categoryName);
 
@@ -42,7 +44,7 @@ function sendEditCategory(editCategory){
 
 function addNewCategory(){
   var categoryName = $('#categoryName').val();
-
+categoryName = categoryName.trim();
   if(categoryName != ""){
     postNewCategory(categoryName);
   }else{
@@ -103,6 +105,7 @@ function updateCategoryList(res){
 function addNewQuestion(){
   //TODO values from below need to be sent to API as well! Look at comment below!
   var question = $("#createNewQuestion").val();
+  question = question.trim();
   var answer = $("#createNewQuestionAnswer").val();
   var categories = $("#multiBoxCategory").val();
   if(question != "" && answer != "" && categories != ""){
@@ -185,6 +188,7 @@ function editQuestion(question){
 function sendEditQuestion(questionID){
   var selectedCategories = $('#multiBoxCategoryEditQuestion').val();
   var newQuestion = $('#questionNameEdit').val();
+  newQuestion = newQuestion.trim();
   if(selectedCategories != "" && newQuestion != ""){
     //TODO AJAX CALL
     putChangeQuestion(questionID, newQuestion, selectedCategories);
@@ -377,7 +381,7 @@ function addNewAnswer(){
   var questionID = $('#selectQuestion').val();
   var answerName = $('#answerName').val();
   var total = $(".contentMain li").length;
-
+answerName = answerName.trim();
   if(answerName != "" && questionID != ""){
     postNewAnswer(questionID, answerName)
     $("#answerName").val('');
