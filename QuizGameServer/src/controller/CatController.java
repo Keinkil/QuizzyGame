@@ -66,7 +66,7 @@ public class CatController {
 
 	public int addCat(String cat) {
 		System.out.println(cat);
-		if (removeCategory(cat) == -1) {
+		if (catExists(cat) == -1) {
 			category.add(new Category(cat));
 			return 1;
 		}
