@@ -22,7 +22,9 @@ public class CatController {
 
 	public int catExists(String cat) {
 		for (Category c : category) {
-			if (c.getName().equals(cat)) {
+			String cname = c.getName().toLowerCase();
+			String cat2 = cat.toLowerCase();
+			if (cname.equals(cat2)) {
 				return category.indexOf(c);
 			}
 		}
