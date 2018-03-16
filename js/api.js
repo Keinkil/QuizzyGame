@@ -61,7 +61,7 @@ function getCategories(type){
 }
 
  function postNewCategory(categoryName){          //Såhär kan addCategory() (notera namnbytet på metoden) implementeras. Notera parametern också.
-  var data = '{ "name":' + categoryName + '}';
+  var data = '{ "name":' + "\""+ categoryName + "\""+ '}';
    $.ajax({
     type: "POST",
     url: "http://localhost:5000/api/1/category",
