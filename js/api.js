@@ -31,7 +31,6 @@ function putChangedCategory(oldCategoryName, newCategoryName) {
    success: function(result){     //Success sker när ett anrop går igenom.
 
      refreshCategoryList();
-       console.log(result);
      },
      error: function(XMLHttpRequest, textStatus, errorThrown) {     //Error sker om anropet inte går igenom
        alert("Status: " + textStatus + " Error: " + errorThrown); //I detta fall sker då en alert
@@ -115,7 +114,6 @@ function postNewQuestion(category, question, file, answer) {
       "Accept": "application/json"
  },
      success: function(result){     //Success sker när ett anrop går igenom.
-      console.log(result);
       refreshCategoryPickerHeader();
     
      },
@@ -183,7 +181,6 @@ function getAllQuestions(){
 
 function putChangeQuestion(questionID, question, category){
 	var dataQ = question + ',';
-	console.log(category.length);
 	for(var i = 0; i<category.length; i++){
 		if(i == category.length) {
 		dataQ += (category[i]);
@@ -191,7 +188,6 @@ function putChangeQuestion(questionID, question, category){
 		dataQ +=(category[i] + ',');
 	}
 	}
-	console.log(dataQ);
   $.ajax({
     type: "PUT",
     dataType: "json",

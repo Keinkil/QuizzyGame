@@ -259,7 +259,6 @@ function showFilteredQuestions(questionsArr){
   $(".contentMain").empty();
   $(".contentMain").append('<ul class="list-group">');
   for(var i = 0; i<questionsArr.length; i++){
-    console.log(questionsArr[i]);
     $( ".contentMain" )
       .append(
         '<li class="list-group-item" value="' + questionsArr[i].id + '" id="question' + questionsArr[i].id + '">' + questionsArr[i].question
