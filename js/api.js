@@ -92,18 +92,32 @@ function getCategories(type){
 //////// QUESTIONS ////////
 ///////////////////////////
 
-function postNewQuestion(categories, question) {
-  var data = '{ "category":' + categories + '"question":' + question;
+function postNewQuestion(category, question, file, answer) {
+  if(file == "1"){
+    var data = question + ',' +  answer + ',';
+  } else {
+    var data = file + ',' + answer + ',';
+  }
+    for(var i = 0; i<category.length; i++){
+    if(i == category.length) {
+    data += (category[i]);
+  } else {
+    data +=(category[i] + ',');
+  }
+  }
+
+ 
   $.ajax({
     type: "POST",
-    url: "http://localhost:5000/api/1/question ",
+    url: "http://localhost:5000/api/1/question",
     data: data,
     headers: {
       "Accept": "application/json"
  },
      success: function(result){     //Success sker när ett anrop går igenom.
       console.log(result);
-     return result;
+      refreshCategoryPickerHeader();
+    
      },
      error: function(XMLHttpRequest, textStatus, errorThrown) {     //Error sker om anropet inte går igenom
        alert("Status: " + textStatus + " Error: " + errorThrown); //I detta fall sker då en alert

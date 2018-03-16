@@ -110,22 +110,24 @@ function addNewQuestion(){
     var file = files.files[0];
     var reader  = new FileReader();
     if(typeof files.files[0] === 'undefined'){
-      //TODO post to API (without file)
-          postNewQuestion(categories, question);
+      file = "1";
+          postNewQuestion(categories, question, file, answer);
       //TODO If successful refresh UI
-      refreshCategoryPickerHeader();
+//      refreshCategoryPickerHeader();
     }else{
       reader.readAsDataURL(file);
       reader.onload = function () {
         console.log(reader.result);//this is the base64 encdoded file as string
         //TODO post to API with file
+        postNewQuestion(categories, question, reader.result, answer);
         //TODO If successful refresh UI
-        refreshCategoryPickerHeader();
+   //     refreshCategoryPickerHeader();
       };
     }
   }else{
     alert("Didn't create a new question. Please enter question, answer and choose at least one category.")
   }
+      //  refreshCategoryPickerHeader();
 }
 
 function removeQuestion(question){
