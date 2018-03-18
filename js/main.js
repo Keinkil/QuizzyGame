@@ -103,7 +103,6 @@ function updateCategoryList(res){
 //////// QUESTIONS ////////
 ///////////////////////////
 function addNewQuestion(){
-  //TODO values from below need to be sent to API as well! Look at comment below!
   var question = $("#createNewQuestion").val();
   question = question.trim();
   var answer = $("#createNewQuestionAnswer").val();
@@ -115,37 +114,26 @@ function addNewQuestion(){
     if(typeof files.files[0] === 'undefined'){
       file = "1";
           postNewQuestion(categories, question, file, answer);
-      //TODO If successful refresh UI
-//      refreshCategoryPickerHeader();
     }else{
       reader.readAsDataURL(file);
       reader.onload = function () {
-        console.log(reader.result);//this is the base64 encdoded file as string
-        //TODO post to API with file
+        console.log(reader.result); //this is the base64 encdoded file as string
         postNewQuestion(categories, question, reader.result, answer);
-        //TODO If successful refresh UI
-   //     refreshCategoryPickerHeader();
       };
     }
   }else{
     alert("Didn't create a new question. Please enter question, answer and choose at least one category.")
   }
-      //  refreshCategoryPickerHeader();
 }
 
 function removeQuestion(question){
   var questionName = $(question).text();
   var questionID = $(question).val();
-  //TODO Call API with questionID and remove it
   deleteQuestion(questionID);
   refreshDeletedQuestionList();
-  alert("Removed question: " + questionName + " questionID: " + questionID);
-
-
 };
 
 function refreshDeletedQuestionList(){
-   //Refresh list after call
   var selectedCategory = $('#selectCategoryHeader').val();
   getQuestions(selectedCategory);
 };
@@ -154,7 +142,6 @@ function editQuestion(question){
   $("#dialogModal").modal();
   var questionName = $(question).text();
   var questionID = $(question).val();
-  //TODO API, get all selected categories with questionID, store in prevSelected
   var prevSelected = ["Sausages", "Dogs"];
 
   $("#dialogModalTitel").empty();
@@ -190,9 +177,7 @@ function sendEditQuestion(questionID){
   var newQuestion = $('#questionNameEdit').val();
   newQuestion = newQuestion.trim();
   if(selectedCategories != "" && newQuestion != ""){
-    //TODO AJAX CALL
     putChangeQuestion(questionID, newQuestion, selectedCategories);
-    alert("Ajax call - questionID: " + questionID + " newQuestion: " + newQuestion + " selectedCategories: " + selectedCategories);
   }else{
     alert("Didn't save changes. Please enter at least one character and choose at least one category.")
   }
@@ -315,7 +300,6 @@ function refreshAnswers(questionsArr){
 }
 
 function listAnswers(questionID){
-
   getAllAnswersBasedOnQuestion(questionID);
 }
 

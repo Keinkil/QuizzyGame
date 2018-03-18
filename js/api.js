@@ -28,12 +28,12 @@ function putChangedCategory(oldCategoryName, newCategoryName) {
     headers: {
       "Accept": "application/json"
     },
-   success: function(result){     //Success sker när ett anrop går igenom.
+   success: function(result){     
 
      refreshCategoryList();
      },
-     error: function(XMLHttpRequest, textStatus, errorThrown) {     //Error sker om anropet inte går igenom
-       alert("Status: " + textStatus + " Error: " + errorThrown); //I detta fall sker då en alert
+     error: function(XMLHttpRequest, textStatus, errorThrown) {
+       alert("Status: " + textStatus + " Error: " + errorThrown);
        alert("Couldn't rename your category: " + oldCategoryName);
 
      }
@@ -60,7 +60,7 @@ function getCategories(type){
   });
 }
 
- function postNewCategory(categoryName){          //Såhär kan addCategory() (notera namnbytet på metoden) implementeras. Notera parametern också.
+ function postNewCategory(categoryName){
   var data = '{ "name":' + "\""+ categoryName + "\""+ '}';
    $.ajax({
     type: "POST",
@@ -69,13 +69,12 @@ function getCategories(type){
      headers: {
       "Accept": "application/json"
      },
-     success: function(result){     //Success sker när ett anrop går igenom.
-
+     success: function(result){
      showNewlyAddedCategory(result);
        console.log(result);
      },
-     error: function(XMLHttpRequest, textStatus, errorThrown) {     //Error sker om anropet inte går igenom
-       alert("Status: " + textStatus + " Error: " + errorThrown); //I detta fall sker då en alert
+     error: function(XMLHttpRequest, textStatus, errorThrown) {
+       alert("Status: " + textStatus + " Error: " + errorThrown);
        alert("Couldn't create your category: " + categoryName);
 
      }
@@ -105,7 +104,7 @@ function postNewQuestion(category, question, file, answer) {
   }
   }
 
- 
+
   $.ajax({
     type: "POST",
     url: "http://localhost:5000/api/1/question",
@@ -113,12 +112,12 @@ function postNewQuestion(category, question, file, answer) {
     headers: {
       "Accept": "application/json"
  },
-     success: function(result){     //Success sker när ett anrop går igenom.
+     success: function(result){
       refreshCategoryPickerHeader();
-    
+
      },
-     error: function(XMLHttpRequest, textStatus, errorThrown) {     //Error sker om anropet inte går igenom
-       alert("Status: " + textStatus + " Error: " + errorThrown); //I detta fall sker då en alert
+     error: function(XMLHttpRequest, textStatus, errorThrown) {
+       alert("Status: " + textStatus + " Error: " + errorThrown);
 
 
      }
@@ -241,11 +240,11 @@ function postNewAnswer(questionID, answer) {
     headers: {
       "Accept": "application/json"
     },
-    success: function(result){     //Success sker när ett anrop går igenom.
+    success: function(result){
       getAllAnswersBasedOnQuestion(questionID);
     },
-    error: function(XMLHttpRequest, textStatus, errorThrown) {     //Error sker om anropet inte går igenom
-      alert("Status: " + textStatus + " Error: " + errorThrown); //I detta fall sker då en alert
+    error: function(XMLHttpRequest, textStatus, errorThrown) {
+      alert("Status: " + textStatus + " Error: " + errorThrown);
     }
   });
 }
@@ -276,12 +275,12 @@ function putAnswer(answerID, newAnswer) {
     headers: {
       "Accept": "application/json"
     },
-    success: function(result){     //Success sker när ett anrop går igenom.
+    success: function(result){
       var questionID = $('#selectQuestion').val();
       getAllAnswersBasedOnQuestion(questionID);
     },
-    error: function(XMLHttpRequest, textStatus, errorThrown) {     //Error sker om anropet inte går igenom
-      alert("Status: " + textStatus + " Error: " + errorThrown); //I detta fall sker då en alert
+    error: function(XMLHttpRequest, textStatus, errorThrown) {
+      alert("Status: " + textStatus + " Error: " + errorThrown);
     }
   });
 }
