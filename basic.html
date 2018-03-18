@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<!-- This is a comment -->
+
+<head>
+  <meta charset="UTF-8">
+  <script src="js/jquery.min.js"></script>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <script src="js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="css/main.css">
+  <script src="js/api.js"></script>
+  <script src="js/main.js"></script>
+</head>
+
+<body>
+        <div class="header">
+          <img src="images/logo.png" alt="Logo">
+        </div>
+
+      <div class="sidenav">
+        <h1>Manage:</h1>
+        <ul>
+          <li id="categoriesMenu"><a>Categories</a></li>
+          <li id="questionsMenu"><a>Questions</a></li>
+          <li id="answersMenu"><a>Answers</a></li>
+        </ul>
+      </div>
+
+      <div class="main">
+        <div class="contentMainHeader">
+          <h2>Welcome to the admin UI!</h2>
+          <p>Manage the quiz by using the alternatives listed in the side bar.</p>
+        </div>
+        <div class="contentMain">
+        </div>
+      </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="dialogModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <h2 class="modal-title" id="dialogModalTitel">TitelTest</h2>
+            </div>
+            <div class="modal-body" id="dialogModalBody">
+              TestData for body!
+            </div>
+            <div class="modal-footer" id="dialogModalFooter">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  </body>
+</html>
