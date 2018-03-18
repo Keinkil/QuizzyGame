@@ -24,8 +24,8 @@ import qAndA.Question;
 public class QGController {
 
 	/**
-	 * Main method. Let's start the server
-	 * 
+	 * Main method. Adds some dummy-questions and dummy-answers.
+	 * Let's start the server
 	 * @param args
 	 * @throws Exception
 	 *             Something went wrong
@@ -86,6 +86,9 @@ public class QGController {
 		cat.getCat("Logaritmer").addQuestion(q7);
 		cat.getCat("Logaritmer").addQuestion(q8);
 
+		/**
+		 * PATH: base route
+		 */
 		path("/api/1", () -> {
 
 			before("//*", (req, res) -> {
@@ -96,7 +99,6 @@ public class QGController {
 				res.header("Access-Control-Allow-Headers", "content-type");
 				res.header("Access-Control-Allow-Headers", "*");
 				res.status(200);
-				// res.type("application/json");
 				if (first) {
 					first = false;
 				} else {
@@ -108,6 +110,14 @@ public class QGController {
 					System.out.println("---------------------------------------------------");
 				}
 			});
+			/**
+			 * PATH: Category route
+			 * GET: Get all categories
+			 * POST: Post new category
+			 * PUT: Change name of category
+			 * DELETE: Delete e category
+			 * OPTIONS: -
+			 */
 			path("/category", () -> {
 				get("", (req, res) -> {
 					System.out.println("API Call received was of the type: GET");
@@ -146,7 +156,6 @@ public class QGController {
 						System.out.println("Success 201: Created");
 						System.out.println();
 						res.status(201);
-//						return "{\"status\": \"ok\"}";
 						return res.status();
 					} else {
 						System.out.println("POST category attempt: " + id);
@@ -170,12 +179,9 @@ public class QGController {
 					System.out.println("Attempt to rename category " + id + " to " + newId);
 					if (cat.renameCategory(id, newId)) {
 						res.status(200);
-						System.out.println("RIGHT");
-//						return "{\"status\": \"ok\"}";
 						return res.status();
 					} else {
 						res.status(404);
-						System.out.println("WRONG");
 						return res.status();
 					}
 				});
@@ -206,6 +212,14 @@ public class QGController {
 					return "";
 				});
 			});
+			/**
+			 * PATH: Question route
+			 * GET: Get a specific question or get all questions
+			 * POST: Post new question
+			 * PUT: Change question
+			 * DELETE: Delete a question
+			 * OPTIONS: -
+			 */
 			path("/question", () -> {
 
 				get("/:id", (req, res) -> {
@@ -214,7 +228,6 @@ public class QGController {
 					if (id != null && !id.isEmpty()) {
 						System.out.println("GET category: " + id);
 						String jsonArray = gson.toJson(cat.getCat(id).getQuestions());
-						// String jsonArray = gson.toJson(qc.getQuestionBasedOnCategory(id));
 						if (jsonArray != null) {
 							res.status(200);
 							System.out.println("Requested data:" + jsonArray);
@@ -231,7 +244,7 @@ public class QGController {
 					}
 				});
 				
-				//Hm. 
+	
 				get("/all/", (req, res) -> {
 					System.out.println("API Call received was of the type: GET");
 						String jsonArray = gson.toJson(cat.getAllQuestions());
@@ -244,7 +257,6 @@ public class QGController {
 						} else {
 							res.status(409);
 							System.out.println("empty");
-//							return "{ \"status\": \"empty\" }";
 							return res.status();
 						}
 				});
@@ -288,7 +300,6 @@ public class QGController {
 				return res.status();
 			});
 
-				// Ska det göras mer här, läs: If a PUT-request alters the correct answer...
 				put("/:id", (req, res) -> {
 					System.out.println("API Call received was of the type: PUT");
 					int id = Integer.parseInt(req.params(":id"));
@@ -340,7 +351,14 @@ public class QGController {
 					return "";
 				});
 			});
-
+			/**
+			 * PATH: Answer route
+			 * GET: Get all answers
+			 * POST: Post new answer
+			 * PUT: Change answer
+			 * DELETE: Delete an answer
+			 * OPTIONS: -
+			 */
 			path("/answer", () -> {
 				get("/:id", (req, res) -> {
 					String id = req.params(":id");
@@ -353,14 +371,12 @@ public class QGController {
 					}catch (NumberFormatException e) {					
 						res.status(400);
 						System.out.println("Bad request");
-//						return "{ \"status\": \"Accept only number for this call.\" }";
 						return res.status();
 					}
 					
 					if(question == null){
 						res.status(406);
 						System.out.println("Couldn't find question");
-//						return "{ \"status\": \"Couldn't find entity\" }";
 						return res.status();
 					}
 				
@@ -373,7 +389,6 @@ public class QGController {
 					} else {
 						res.status(200);
 						System.out.println("empty");
-//						return "{ \"status\": \"empty\" }";
 						return res.status();
 					}
 				});
@@ -389,7 +404,6 @@ public class QGController {
 						System.out.println("Bad request");
 						return res.status();
 
-//						return "{ \"status\": \"Accept only number for this call.\" }";
 					}
 					
 					Answer newAnswer = gson.fromJson(req.body(), Answer.class);
@@ -397,15 +411,12 @@ public class QGController {
 					if(newAnswer != null){
 						System.out.println("Try to POST answer to question with id " + id + " with the answer " + newAnswer.getName());
 						question.addAnswer(newAnswer);
-						res.status(200);
+						res.status(201);
 						System.out.println("Ok");
 						return res.status();
-//						return "{ \"status\": \"Created new answer!\" }";
 					}else{
 						res.status(400);
 						System.out.println("Bad request");
-//						return "{ \"status\": \"Accept only number for this call.\" }";
-
 						return res.status();
 					}					
 				});
@@ -419,9 +430,8 @@ public class QGController {
 						res.status(400);
 						System.out.println("Bad request");
 						return res.status();
-
-//						return "{ \"status\": \"Accept only number for this call.\" }";
 					}
+					
 					System.out.println(req.body());
 					Answer editAnswer = gson.fromJson(req.body(), Answer.class);
 					if(editAnswer.getName().equals("")){
@@ -429,14 +439,12 @@ public class QGController {
 						System.out.println("Bad request");
 						return res.status();
 
-//						return "{ \"status\": \"Answer can't be empty string!\" }";
 					}else{
 						System.out.println("Try to PUT answer with id " + id + " with the answer " + editAnswer.getName());
 						cat.changeAnswer(intId, editAnswer.getName());
 						res.status(200);
 						System.out.println("Ok");
 						return res.status();
-//						return "{ \"status\": \"Edit is now done..\" }";
 					}					
 				});
 
@@ -452,21 +460,17 @@ public class QGController {
 						res.status(400);
 						System.out.println("Bad request");
 						return res.status();
-
-//						return "{ \"status\": \"Accept only number for this call.\" }";
 					}
 					
 					if(answerResult == 1){
 						res.status(200);
 						System.out.println("Ok");
-						//return "{ \"status\": \"Removed the answer!\" }";
 						return res.status();
 						
 					}else{
 						res.status(400);
 						System.out.println("Bad request");
 						return res.status();
-//						return "{ \"status\": \"Couldn't find the resource!\" }";
 					}	
 				});
 

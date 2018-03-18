@@ -5,7 +5,11 @@ import java.util.ArrayList;
 import category.Category;
 import qAndA.Answer;
 import qAndA.Question;
-
+/**
+ * This class manages the categories. 
+ * This class would contain the database connection for the categories in a full implementation of the system.
+ *
+ */
 public class CatController {
 
 	private ArrayList<Category> category = new ArrayList<Category>();
@@ -13,6 +17,9 @@ public class CatController {
 	String cat = "";
 	Question q;
 
+	/**
+	 * Constructor. Creates 4 categories when initialized and adds them to an arraylist of categories.  
+	 */
 	public CatController() {
 		category.add(new Category("Geometri"));
 		category.add(new Category("Algebra"));
@@ -20,6 +27,11 @@ public class CatController {
 		category.add(new Category("Logaritmer"));
 	}
 
+	/**
+	 * Checks if a category exists. 
+	 * @param cat The name of the category to be checked
+	 * @return the index of the category if category name exists as an int. If not, -1 is returned as an int.
+	 */
 	public int catExists(String cat) {
 		for (Category c : category) {
 			String cname = c.getName().toLowerCase();
@@ -32,6 +44,10 @@ public class CatController {
 
 	}
 
+	/**
+	 * Gets all the category names.
+	 * @return category names as an arraylist of strings
+	 */
 	public ArrayList<String> getCategoryNames() {
 		ArrayList<String> catNames = new ArrayList<String>();
 		for (Category c : category) {
@@ -40,6 +56,12 @@ public class CatController {
 		return catNames;
 	}
 
+	/**
+	 * Renames a specific category to a new name if that category exists. 
+	 * @param cat the category that should be renamed as a string
+	 * @param name the new name of the category as a string
+	 * @return boolean, true if success, else false
+	 */
 	public boolean renameCategory(String cat, String name) {
 		int index = catExists(cat);
 		if (index != -1) {
@@ -50,13 +72,15 @@ public class CatController {
 		return false;
 	}
 
+	/**
+	 * Removes a category
+	 * @param cat the name of the category to be removed as a string
+	 * @return 1 as an integer if success, else -1
+	 */
 	public int removeCategory(String cat) {
-		System.out.println("hur många kategorier " + category.size());
 		for (int i = 0; i < category.size(); i++) {
 
 			if (category.get(i).getName().equals(cat)) {
-				System.out.println("Category getName " + category.get(i).getName());
-				System.out.println("Id namn " + cat);
 				category.remove(i);
 				return 1;
 
@@ -66,6 +90,11 @@ public class CatController {
 		return -1;
 	}
 
+	/**
+	 * Adds and creates a new category. 
+	 * @param cat the name of the new category to be added as a string
+	 * @return 1 as an integer if success, else -1
+	 */
 	public int addCat(String cat) {
 		System.out.println(cat);
 		if (catExists(cat) == -1) {
@@ -77,6 +106,11 @@ public class CatController {
 
 	}
 	
+	/**
+	 * Adds a question to a category.
+	 * @param q the question-object to be added 
+	 * @param name the name of the category as a string that the question should be added to
+	 */
 	public void addQToCat(Question q, String name) {
 		for(Category c : category) {
 			if(c.getName().equals(name)) {
@@ -85,6 +119,11 @@ public class CatController {
 		}
 	}
 	
+	/**
+	 * Get name of category.
+	 * @param name the name of the category as a string
+	 * @return the category-object that matches the name if success, else null
+	 */
 	public Category getCat(String name) {
 		for(Category c : category) {
 			if(c.getName().equals(name)) {
@@ -94,10 +133,18 @@ public class CatController {
 		return null;
 	}
 	
+	/**
+	 * Get all the category-objects
+	 * @return all categories as an arraylist
+	 */
 	public ArrayList<Category> getAllCats() {
 		return category;
 	}
 	
+	/**
+	 * Gets all questions in all categories. Controls that question only appears once.
+	 * @return all questions as an arraylist of question-objects.
+	 */
 	public ArrayList<Question> getAllQuestions(){
 		ArrayList<Question> allQuestions = new ArrayList<Question>();	
 		checkingdubs.clear();
@@ -107,7 +154,7 @@ public class CatController {
 		}
 		Question question = null;
 		
-		for(int i=0 ; i<allQuestions.size(); i++){   //MAX Solutions tm
+		for(int i=0 ; i<allQuestions.size(); i++){   
 			question = allQuestions.get(i);
 			allQuestions.remove(i);
 			if(!(allQuestions.contains(question))){
@@ -118,6 +165,11 @@ public class CatController {
 		return allQuestions;
 	}
 	
+	/**
+	 * Get answer with a specific id.
+	 * @param id Id of answer as an int
+	 * @return the answer-object if success, else null
+	 */
 	public Answer getAnswer(int id){
 		for(Category category : getAllCats()){
 			for(Question question : category.getQuestions()){
@@ -131,6 +183,11 @@ public class CatController {
 		return null;
 	}
 	
+	/**
+	 * Get question with a specific id.
+	 * @param id Id of question as an int
+	 * @return the question-object if success, else null
+	 */
 	public Question getQuestion(int id){		
 		for(Category category : getAllCats()){
 			for(Question question : category.getQuestions()){
@@ -141,7 +198,11 @@ public class CatController {
 		}
 		return null;
 	}
-	
+	/**
+	 * Remove an answer with a specific id.
+	 * @param id Id of answer as an int
+	 * @return an integer, 1 if success, else -1
+	 */
 	public int removeAnswer(int id){
 		for(Category category : getAllCats()){
 			for(Question question : category.getQuestions()){
@@ -158,6 +219,12 @@ public class CatController {
 		return -1;
 	}
 	
+	/**
+	 * Changes an answer to a new answer.
+	 * @param id Id of answer as an int
+	 * @param newAnswer The new answer as a string
+	 * @return an integer
+	 */
 	public int changeAnswer(int id, String newAnswer) {
 		int returnValue = -1;
 		
