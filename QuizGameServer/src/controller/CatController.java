@@ -13,7 +13,6 @@ import qAndA.Question;
 public class CatController {
 
 	private ArrayList<Category> category = new ArrayList<Category>();
-	private ArrayList<Question> checkingdubs = new ArrayList<Question>();
 	String cat = "";
 	Question q;
 
@@ -146,22 +145,20 @@ public class CatController {
 	 * @return all questions as an arraylist of question-objects.
 	 */
 	public ArrayList<Question> getAllQuestions(){
-		ArrayList<Question> allQuestions = new ArrayList<Question>();	
-		checkingdubs.clear();
+		ArrayList<Question> allQuestions = new ArrayList<Question>();
 		for(Category category : getAllCats()){
-			
+	
 			allQuestions.addAll(category.getQuestions());
-		}
-		Question question = null;
-		
-		for(int i=0 ; i<allQuestions.size(); i++){   
-			question = allQuestions.get(i);
+			
+			for(int i=0 ; i<allQuestions.size(); i++){   
+			Question question = allQuestions.get(i);
 			allQuestions.remove(i);
 			if(!(allQuestions.contains(question))){
 				allQuestions.add(question);
 			}
 		}
-		
+		}
+	
 		return allQuestions;
 	}
 	
